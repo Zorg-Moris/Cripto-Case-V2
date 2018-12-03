@@ -21,8 +21,8 @@ function request(coin) {
     })
 };
 
-function historicalRequest(coin) {
-    let url = "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=10";
+function historicalRequest(coin, term) {
+    let url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coin}&tsym=USD&limit=${term}`;
     return new Promise(function (resolve, reject) {
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {

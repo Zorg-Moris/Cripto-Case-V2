@@ -85,9 +85,10 @@ let coins = [{
 //рассмотреть возможность хранения в localstorage
 let state = {
     chooseCoins: [],//нужен еще для того чтоб обновлять инфу через определенный промежуток времени
-    chooseCurrensy: "USD",
     arrayCoins: [],
-    chartCoin: null,
+    chartCoin: null, // текущий график
+    coinChoose: null,// определяет выбраную монету при построении графика
+    chooseCurrensy: "USD",
     setCurrency: function (el) {
         if (el.checked) {
             this.chooseCurrensy = "EURO";
@@ -111,83 +112,19 @@ function Coin(coinSymbol, coinName, priceUsd, priceEuro) {
     this.priceEuro = priceEuro;
 };
 
-// let chartData = {
-//     // labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
-//     // labels: [1540512000*1000, 1540598400*1000, 1540684800*1000, 1540771200*1000, 1540857600*1000, 1540944000*1000, 1541030400*1000],
-//     labels: null,
-//     datasets: [{
-//         label: "Coin Value",
-//         // data: [6200, 6100, 6305, 6151, 6687, 6900, 6057],
-//         data: null,
-//         lineTension: 0.5,
-//         fill: true,
-//         borderColor: 'blue',
-//         //backgroundColor: 'rgb(255, 255, 224)',
-//         backgroundColor: 'transparent',
-//         borderDash: [5, 5],
-//         pointBorderColor: 'orange',
-//         pointBackgroundColor: 'rgba(255,150,0,0.5)',
-//         pointRadius: 5,
-//         pointHoverRadius: 10,
-//         pointHitRadius: 30,
-//         pointBorderWidth: 2,
-//         pointStyle: 'rectRounded'
-//     }]
-// };
-
-// let chartOptions = {
-//     legend: {
-//         display: true,
-//         position: 'top',
-//         labels: {
-//             boxWidth: 80,
-//             fontColor: 'black'
-//         }
-//     }, animation: {
-//         duration: 2000,
-//         easing: 'easeOutBack' //'easeInOutBack'
-//     },
-//     scales: {
-//         xAxes: [{
-//             type: 'time',
-//             // time: {
-//             //     displayFormats: {
-//             //         distribution: 'series'
-//             //     }
-//             // }
-//         }],
-//         yAxes: [{
-//             ticks: {
-//                 suggestedMin: 5800,
-//                 suggestedMax: 7200,
-//                 stepSize: 200
-//             }
-//         }]
-//     }
-// };
-
-//let coinRateChart = document.getElementById("coinChart").getContext("2d");
-
-// let lineChart = new Chart(coinRateChart, {
-//     type: 'line',
-//     data: speedData,
-//     options: chartOptions
-// });
-
-
-function ChartCoin(data, time) {
+function ChartCoin(data, time, coinName) {
     this.ctx = document.getElementById("coinChart").getContext("2d");
     this.coinChart = new Chart(this.ctx, {
         type: 'line',
         data: {
             labels: time,
             datasets: [{
-                label: "Coin Value",
+                label: coinName,
                 data: data,
                 lineTension: 0.5,
                 fill: true,
                 borderColor: 'blue',
-                //backgroundColor: 'rgb(255, 255, 224)',
+                backgroundColor: 'rgb(255, 255, 224)',
                 backgroundColor: 'transparent',
                 borderDash: [5, 5],
                 pointBorderColor: 'orange',
@@ -203,9 +140,12 @@ function ChartCoin(data, time) {
             legend: {
                 display: true,
                 position: 'top',
+                
+               
                 labels: {
-                    boxWidth: 80,
-                    fontColor: 'black'
+                    boxWidth: 0,
+                    fontColor: 'blue',
+                    fontSize:20
                 }
             }, animation: {
                 duration: 2000,

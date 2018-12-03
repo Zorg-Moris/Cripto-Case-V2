@@ -57,7 +57,7 @@ async function destructObject(data, coinShortName, coinName) {
     return coin;
 };
 
-function displayInfoCoin(coin) {
+function displayInfoCoin(coin, coinShortName) {
     let currency = state.chooseCurrensy;
     let priceCurrency = null;
 
@@ -70,8 +70,10 @@ function displayInfoCoin(coin) {
     let coinInfoHead = document.getElementById("coinInfo");
     coinInfoHead.classList.add("coinInfoCont");
 
+
     let coinInfo = document.createElement("div");
     coinInfo.classList.add("coinInfo");
+    coinInfo.setAttribute("index-data", `${coinShortName}`);
 
     let divContName = document.createElement("div");
     divContName.classList.add("coinRate");
@@ -134,7 +136,7 @@ function displayInfoCoin(coin) {
 async function uniteCoinInfo(coinShortName, coinName) {
     let data = await requestCoinInfo(coinShortName);
     let coin = await destructObject(data, coinShortName, coinName);
-    displayInfoCoin(coin);
+    displayInfoCoin(coin, coinShortName);
     console.log(coin);
 };
 
@@ -152,12 +154,22 @@ function calculate(event, inputValue, currentPrice) {
     return res;
 };
 
-async function getHistoricalRequest() {
-    let coin = "BTC";
-    let data = await historicalRequest(coin);
+// async function getHistoricalRequest(coin) {
+//     // let coin = "BTC";
+//     let data = await historicalRequest(coin);
+//     let historyCoinInfo = JSON.parse(data);
+//     let historicalData = await destructHistoricalRequest(historyCoinInfo);
+//     let { dateArray, timeArray } = historicalData;
+//     await displayGrapf(dateArray, timeArray, coin);
+// };
+
+async function getHistoricalRequest(termin = 10) {
+    let coin = state.coinChoose;
+    let data = await historicalRequest(coin, termin);
     let historyCoinInfo = JSON.parse(data);
     let historicalData = await destructHistoricalRequest(historyCoinInfo);
-    await displayGrapf(historicalData);
+    let { dateArray, timeArray } = historicalData;
+    await displayGrapf(dateArray, timeArray, coin);
 };
 
 async function destructHistoricalRequest(data) {
@@ -176,9 +188,9 @@ async function destructHistoricalRequest(data) {
     return historyData;
 };
 
-async function displayGrapf(historyData) {
-    let { dateArray, timeArray } = historyData;
-    let chart = new ChartCoin(dateArray, timeArray);
-    state.chartCoin = chart;
+async function displayGrapf(dateArray, timeArray, coinShortName) {
+    if (state.chartCoin !== null) {
+        state.chartCoin.destroyChart();
+    }
+    state.chartCoin = new ChartCoin(dateArray, timeArray, coinShortName);
 };
-
