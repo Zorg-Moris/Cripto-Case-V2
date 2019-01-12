@@ -27,21 +27,21 @@
 
             <div class="coinContainerInfo">
                 <div class="coinHeader">
-                    <div class="coinTitle">NAME</div>
-                    <div class="coinTitle">NAME</div>
-                    <div class="coinTitle">NAME</div>
-                    <div class="coinTitle">NAME</div>
+                    <div class="coinTitle">COIN</div>
+                    <div class="coinTitle">PRICE</div>
+                    <div class="coinTitle">CHG.24H</div>
+                    <div class="coinTitle">CALCULATOR</div>
                     <div class="coinTitle">NAME</div>
                 </div>
                 <div id="coinInfo" class="coinInfoCont">
                     <div class="coinInfo">
-                        <div class="coinRate coinName">
-                            <div class="label">LABEL</div>
-                            <div class="name">BITCOIN</div>
+                        <div class="coinRate halfCell">
+                            <div>LABEL</div>
+                            <div>BITCOIN</div>
                         </div>
                         <div class="coinRate">current rate</div>
                         <div class="coinRate">
-                            <div class="coinDirection"></div>
+                            <!-- <div class="coinDirection"></div> -->
                             <div class="coinChange">
                                 <div class="changeCurrency">150</div>
                                 <div class="changePercent">2.5%</div>
@@ -53,8 +53,13 @@
                             </div>
                             <div>costing</div>
                         </div>
-                        <div class="coinRate">
-                            <button>Graph</button>
+                        <div class="coinRate halfCell">
+                            <div>
+                                <button>Graph</button>
+                            </div>
+                            <div>
+                                <button>Delete</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,22 +67,22 @@
             <div class="modal-overlay closed" id="modal-overlay"></div>
             <div class="modal closed" id="modal">
                 <button class="close-button" id="close-button" title="Close the chart">Close</button>
-                 <div class="modal-guts" role="document">
-                   <canvas id="coinChart" width="600" height="300">
+                <div class="modal-guts" role="document">
+                    <canvas id="coinChart" width="600" height="300">
                     </canvas>
-                           <div id="chartTermin" class="chartTermin">
-                            <input type="radio" name="termin" id="termin1" value="5">
-                            <label for="termin1">5 days </label>
-    
-                            <input type="radio" name="termin" id="termin2" value="10" checked>
-                            <label for="termin2">10 days</label>
-    
-                            <input type="radio" name="termin" id="termin3" value="20">
-                            <label for="termin3">20 days</label>
-    
-                            <input type="radio" name="termin" id="termin4" value="30">
-                            <label for="termin4">30 days</label>
-                        </div>
+                    <div id="chartTermin" class="chartTermin">
+                        <input type="radio" name="termin" id="termin1" value="5">
+                        <label for="termin1">5 days </label>
+
+                        <input type="radio" name="termin" id="termin2" value="10" checked>
+                        <label for="termin2">10 days</label>
+
+                        <input type="radio" name="termin" id="termin3" value="20">
+                        <label for="termin3">20 days</label>
+
+                        <input type="radio" name="termin" id="termin4" value="30">
+                        <label for="termin4">30 days</label>
+                    </div>
                 </div>
             </div>
         </div>

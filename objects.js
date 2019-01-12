@@ -91,7 +91,7 @@ let state = {
     chooseCurrensy: "USD",
     setCurrency: function (el) {
         if (el.checked) {
-            this.chooseCurrensy = "EURO";
+            this.chooseCurrensy = "EUR";
         } else {
             this.chooseCurrensy = "USD";
         }

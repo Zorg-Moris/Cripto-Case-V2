@@ -37,18 +37,21 @@ async function requestCoinInfo(coin) {
 
 async function destructObject(data, coinShortName, coinName) {
     let coinInfo = data.DISPLAY[coinShortName];
-    let { USD: {
-        FROMSYMBOL: coinSymbol,
-        TOSYMBOL: symbolUSD,
-        PRICE: priceUsd,
-        CHANGE24HOUR: changeCurrencyUsd,
-        CHANGEPCT24HOUR: changePctUsd
-    }, EUR: {
-        TOSYMBOL: symbolEuro,
-        PRICE: priceEuro,
-        CHANGE24HOUR: changeCurrencyEuro,
-        CHANGEPCT24HOUR: changePctEuro
-    } } = coinInfo;
+    let {
+        USD: {
+            FROMSYMBOL: coinSymbol,
+            TOSYMBOL: symbolUSD,
+            PRICE: priceUsd,
+            CHANGE24HOUR: changeCurrencyUsd,
+            CHANGEPCT24HOUR: changePctUsd
+        },
+        EUR: {
+            TOSYMBOL: symbolEuro,
+            PRICE: priceEuro,
+            CHANGE24HOUR: changeCurrencyEuro,
+            CHANGEPCT24HOUR: changePctEuro
+        }
+    } = coinInfo;
 
     let fullPriceUSD = new Price(symbolUSD, priceUsd, changeCurrencyUsd, changePctUsd);
     let fullPriceEuro = new Price(symbolEuro, priceEuro, changeCurrencyEuro, changePctEuro);
@@ -63,13 +66,12 @@ function displayInfoCoin(coin, coinShortName) {
 
     if (currency === "USD") {
         priceCurrency = coin.priceUsd;
-    } else if (currency === "EURO") {
+    } else if (currency === "EUR") {
         priceCurrency = coin.priceEuro;
     }
 
     let coinInfoHead = document.getElementById("coinInfo");
-    coinInfoHead.classList.add("coinInfoCont");
-
+    // coinInfoHead.classList.add("coinInfoCont");
 
     let coinInfo = document.createElement("div");
     coinInfo.classList.add("coinInfo");
@@ -77,12 +79,12 @@ function displayInfoCoin(coin, coinShortName) {
 
     let divContName = document.createElement("div");
     divContName.classList.add("coinRate");
-    divContName.classList.add("coinName");
+    divContName.classList.add("halfCell");
     let divLabel = document.createElement("div");
-    divLabel.classList.add("label");
+    // divLabel.classList.add("label");
     divLabel.textContent = coin.coinSymbol;
     let divName = document.createElement("div");
-    divName.classList.add("name");
+    // divName.classList.add("name");
     divName.textContent = coin.coinName;
     divContName.appendChild(divLabel);
     divContName.appendChild(divName);
@@ -95,18 +97,20 @@ function displayInfoCoin(coin, coinShortName) {
 
     let changePrice = document.createElement("div");
     changePrice.classList.add("coinRate");
-    let coinDirection = document.createElement("div");
-    coinDirection.classList.add("coinDirection");
-    changePrice.appendChild(coinDirection);
+    // let coinDirection = document.createElement("div");
+    // coinDirection.classList.add("coinDirection");
+    // changePrice.appendChild(coinDirection);
     let coinChange = document.createElement("div");
     coinChange.classList.add("coinChange");
     let changeCurrency = document.createElement("div");
     changeCurrency.classList.add("changeCurrency");
     changeCurrency.textContent = priceCurrency.changeCurrency;
+    changeFontColor(priceCurrency.changeCurrency, changeCurrency);
     coinChange.appendChild(changeCurrency);
     let changePct = document.createElement("div");
     changePct.classList.add("changePercent");
     changePct.textContent = `${priceCurrency.changePct} ${"%"}`;
+    changeFontColor(priceCurrency.changePct, changePct);
     coinChange.appendChild(changePct);
     changePrice.appendChild(coinChange);
     coinInfo.appendChild(changePrice);
@@ -126,11 +130,33 @@ function displayInfoCoin(coin, coinShortName) {
 
     let graph = document.createElement("div");
     graph.classList.add("coinRate");
+    graph.classList.add("halfCell");
+    let btnGraphDiv = document.createElement("div");
     let buttonGraph = document.createElement("button");
     buttonGraph.textContent = "Chart";
-    graph.appendChild(buttonGraph);
+    buttonGraph.setAttribute("name", "chart");
+    btnGraphDiv.appendChild(buttonGraph);
+    graph.appendChild(btnGraphDiv);
+    let btnCloseDiv = document.createElement("div");
+    let btnCloseInfo = document.createElement("button");
+    btnCloseInfo.textContent = "Delete";
+    btnCloseInfo.setAttribute("name", "delete");
+    btnCloseDiv.appendChild(btnCloseInfo);
+    graph.appendChild(btnCloseDiv);
     coinInfo.appendChild(graph);
     coinInfoHead.appendChild(coinInfo);
+};
+
+function changeFontColor(price, elem) {
+    let regexNum = /[^\-.\d]+/g;
+    let newPrice = price.replace(regexNum, "");
+    newPrice = parseFloat(newPrice);
+
+    if (newPrice > 0) {
+        elem.classList.add("fontGreen");
+    } else if (newPrice < 0) {
+        elem.classList.add("fontRed");
+    }
 };
 
 async function uniteCoinInfo(coinShortName, coinName) {
@@ -143,7 +169,7 @@ async function uniteCoinInfo(coinShortName, coinName) {
 function calculate(event, inputValue, currentPrice) {
     let regexInput = /[^0-9\.]/g;
     if (isNaN(inputValue)) {
-        inputValue = inputValue.replace(regexInput, '');
+        inputValue = inputValue.replace(regexInput, "");
         if (inputValue.split('.').length > 2) {
             inputValue = inputValue.replace(/\.+$/, "");
         }
@@ -168,7 +194,10 @@ async function getHistoricalRequest(termin = 10) {
     let data = await historicalRequest(coin, termin);
     let historyCoinInfo = JSON.parse(data);
     let historicalData = await destructHistoricalRequest(historyCoinInfo);
-    let { dateArray, timeArray } = historicalData;
+    let {
+        dateArray,
+        timeArray
+    } = historicalData;
     await displayGrapf(dateArray, timeArray, coin);
 };
 
@@ -194,3 +223,42 @@ async function displayGrapf(dateArray, timeArray, coinShortName) {
     }
     state.chartCoin = new ChartCoin(dateArray, timeArray, coinShortName);
 };
+
+function clickCoinInfoInput(event) {
+    let targetInfo = event.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
+    let regex = /[,\$]/g;
+    let currentPrice = parseFloat(targetInfo.replace(regex, ""));
+
+    event.target.oninput = function () {
+        let inputValue = event.target.value;
+        let res = calculate(event, inputValue, currentPrice);
+        let cost = event.target.parentNode.nextElementSibling;
+        cost.textContent = res;
+    }
+};
+
+function clickCoinInfoButton(event) {
+    let name = event.target.getAttribute("name");
+    let child = event.target.parentNode.parentNode.parentNode;
+    let coinShortName = child.getAttribute("index-data");
+
+    switch (name) {
+        case "chart":
+            modalOverLay.classList.toggle("closed");
+            modal.classList.toggle("closed");
+            state.coinChoose = coinShortName;
+            getHistoricalRequest();
+            break;
+        case "delete":
+            let coinInfoHead = document.getElementById("coinInfo");
+            coinInfoHead.removeChild(child);
+            let arrCoins = state.chooseCoins;
+            let newArrCoins = arrCoins.filter(function (coin) {
+                return coin !== coinShortName;
+            });
+            state.chooseCoins = newArrCoins;
+            break;
+        default:
+            break;
+    }
+}

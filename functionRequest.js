@@ -22,7 +22,11 @@ function request(coin) {
 };
 
 function historicalRequest(coin, term) {
-    let url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coin}&tsym=USD&limit=${term}`;
+    let currency = state.chooseCurrensy;
+    //let url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coin}&tsym=USD&limit=${term}`;
+   // let url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coin}&tsym=EURO&limit=${term}`;
+    let url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coin}&tsym=${currency}&limit=${term}`;
+    console.log("currency", currency);
     return new Promise(function (resolve, reject) {
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {

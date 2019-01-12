@@ -104,7 +104,7 @@
     border: 2px solid violet;
 }
 
-.coinName>div {
+.halfCell>div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,16 +113,16 @@
     border: 2px solid green;
 }
 
-.coinDirection {
+/* .coinDirection {
     width: 30%;
     height: 100%;
     border: 2px solid green;
-}
+} */
 
 .coinChange {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 100%;
     border: 2px solid #e4076e;
     height: 100%;
 }
@@ -133,6 +133,14 @@
     align-items: center;
     height: 50%;
     border: 2px solid rebeccapurple;
+}
+
+.fontGreen {
+    color: green;
+}
+
+.fontRed {
+    color: red;
 }
 
 .calc {
