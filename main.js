@@ -9,6 +9,13 @@ let modal = document.getElementById("modal");
 let chartTermin = document.getElementById("chartTermin");
 
 displayCoins();
+randomCoin();
+
+let randomCoinInfo = setInterval(function () {
+    randomCoin();
+}, 5000);
+
+//clearInterval(randomCoinInfo);
 
 
 coinsCase.addEventListener("click", function (event) {
@@ -63,7 +70,3 @@ chartTermin.addEventListener("change", function (event) {
         }
     }
 });
-// openGraph.addEventListener("click", function () {
-//     modalOverLay.classList.toggle("closed");
-//     modal.classList.toggle("closed");
-// });

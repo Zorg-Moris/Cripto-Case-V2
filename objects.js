@@ -70,7 +70,7 @@ let coins = [{
 },
 {
     name: "VeChain",
-    short_name: "VEN"
+    short_name: "VET"
 },
 {
     name: "Ethereum Classic",
@@ -176,66 +176,3 @@ function ChartCoin(data, time, coinName) {
 ChartCoin.prototype.destroyChart = function () {
     this.coinChart.destroy();
 };
-
-
-// let chart = {
-
-//     // coinChart:lineChart
-//     //  item: document.getElementById("coinChart").getContext("2d"),
-//     coinChart: function (time, data) {
-//         new Chart(coinRateChart, {
-//             type: 'line',
-//             data: {
-//                 labels: time,
-//                 datasets: [{
-//                     label: "Coin Value",
-//                     data: data,
-//                     lineTension: 0.5,
-//                     fill: true,
-//                     borderColor: 'blue',
-//                     //backgroundColor: 'rgb(255, 255, 224)',
-//                     backgroundColor: 'transparent',
-//                     borderDash: [5, 5],
-//                     pointBorderColor: 'orange',
-//                     pointBackgroundColor: 'rgba(255,150,0,0.5)',
-//                     pointRadius: 5,
-//                     pointHoverRadius: 10,
-//                     pointHitRadius: 30,
-//                     pointBorderWidth: 2,
-//                     pointStyle: 'rectRounded'
-//                 }]
-//             },
-//             options: {
-//                 legend: {
-//                     display: true,
-//                     position: 'top',
-//                     labels: {
-//                         boxWidth: 80,
-//                         fontColor: 'black'
-//                     }
-//                 }, animation: {
-//                     duration: 2000,
-//                     easing: 'easeOutBack' //'easeInOutBack'
-//                 },
-//                 scales: {
-//                     xAxes: [{
-//                         type: 'time',
-//                         time: {
-//                             unit: 'day',
-//                         },
-//                         ticks: {
-//                             source: 'data'
-//                         },
-//                     }],
-//                     // yAxes: [{
-//                     //         ticks: {
-//                     //         suggestedMin: 5800,
-//                     //         suggestedMax: 7200,
-//                     //         stepSize: 200
-//                     //     } 
-//                     // }]
-//                 }
-//             }
-//         })
-//     }
-// };

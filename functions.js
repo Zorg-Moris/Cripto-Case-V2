@@ -18,14 +18,17 @@ function displayCoins() {
     };
 };
 
-function getCoinInfo(event) {
-    if (event.target.tagName != "BUTTON") {
+
+async function getCoinInfo(event) {
+    if (event.target.tagName !== "BUTTON") {
         return;
     } else {
         let coinShortName = event.target.getAttribute("index-data");
         let coinName = event.target.textContent;
         state.chooseCoins.push(coinShortName);
-        uniteCoinInfo(coinShortName, coinName);
+        let coin = await uniteCoinInfo(coinShortName, coinName);
+        displayCoinHeader();
+        displayInfoCoin(coin, coinShortName);
     }
 };
 
@@ -59,6 +62,16 @@ async function destructObject(data, coinShortName, coinName) {
     let coin = new Coin(coinSymbol, coinName, fullPriceUSD, fullPriceEuro);
     return coin;
 };
+
+
+async function uniteCoinInfo(coinShortName, coinName) {
+    let data = await requestCoinInfo(coinShortName);
+    let coin = await destructObject(data, coinShortName, coinName);
+    //displayInfoCoin(coin, coinShortName);
+    // console.log("coin", coin);
+    return coin;
+};
+
 
 function displayInfoCoin(coin, coinShortName) {
     let currency = state.chooseCurrensy;
@@ -97,9 +110,6 @@ function displayInfoCoin(coin, coinShortName) {
 
     let changePrice = document.createElement("div");
     changePrice.classList.add("coinRate");
-    // let coinDirection = document.createElement("div");
-    // coinDirection.classList.add("coinDirection");
-    // changePrice.appendChild(coinDirection);
     let coinChange = document.createElement("div");
     coinChange.classList.add("coinChange");
     let changeCurrency = document.createElement("div");
@@ -135,12 +145,14 @@ function displayInfoCoin(coin, coinShortName) {
     let buttonGraph = document.createElement("button");
     buttonGraph.textContent = "Chart";
     buttonGraph.setAttribute("name", "chart");
+    buttonGraph.classList.add("btn");
     btnGraphDiv.appendChild(buttonGraph);
     graph.appendChild(btnGraphDiv);
     let btnCloseDiv = document.createElement("div");
     let btnCloseInfo = document.createElement("button");
     btnCloseInfo.textContent = "Delete";
     btnCloseInfo.setAttribute("name", "delete");
+    btnCloseInfo.classList.add("btn");
     btnCloseDiv.appendChild(btnCloseInfo);
     graph.appendChild(btnCloseDiv);
     coinInfo.appendChild(graph);
@@ -159,12 +171,6 @@ function changeFontColor(price, elem) {
     }
 };
 
-async function uniteCoinInfo(coinShortName, coinName) {
-    let data = await requestCoinInfo(coinShortName);
-    let coin = await destructObject(data, coinShortName, coinName);
-    displayInfoCoin(coin, coinShortName);
-    console.log(coin);
-};
 
 function calculate(event, inputValue, currentPrice) {
     let regexInput = /[^0-9\.]/g;
@@ -180,14 +186,6 @@ function calculate(event, inputValue, currentPrice) {
     return res;
 };
 
-// async function getHistoricalRequest(coin) {
-//     // let coin = "BTC";
-//     let data = await historicalRequest(coin);
-//     let historyCoinInfo = JSON.parse(data);
-//     let historicalData = await destructHistoricalRequest(historyCoinInfo);
-//     let { dateArray, timeArray } = historicalData;
-//     await displayGrapf(dateArray, timeArray, coin);
-// };
 
 async function getHistoricalRequest(termin = 10) {
     let coin = state.coinChoose;
@@ -209,7 +207,6 @@ async function destructHistoricalRequest(data) {
 
     for (let i = 0; i < data.Data.length; i++) {
         let time = data.Data[i].time;
-        //let momenTime = moment(time).format("DD,MMM,YYYY");
         historyData.timeArray.push(time * 1000);
         let price = data.Data[i].open;
         historyData.dateArray.push(price);
@@ -226,7 +223,7 @@ async function displayGrapf(dateArray, timeArray, coinShortName) {
 
 function clickCoinInfoInput(event) {
     let targetInfo = event.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
-    let regex = /[,\$]/g;
+    let regex = /[^\d\.]/g;
     let currentPrice = parseFloat(targetInfo.replace(regex, ""));
 
     event.target.oninput = function () {
@@ -257,8 +254,104 @@ function clickCoinInfoButton(event) {
                 return coin !== coinShortName;
             });
             state.chooseCoins = newArrCoins;
+            displayCoinHeader();
             break;
         default:
             break;
     }
-}
+};
+
+function displayCoinHeader() {
+    let coinHeader = document.getElementById("coinHeader");
+    if (state.chooseCoins.length === 0) {
+        coinHeader.classList.add("displayNone");
+    } else if (state.chooseCoins.length === 1) {
+        coinHeader.classList.remove("displayNone");
+    }
+};
+
+async function randomCoin() {
+    let numbers = await checkRandomNum();
+    let {
+        rightNum,
+        leftNum
+    } = numbers;
+
+    // console.log("rightNum", rightNum);
+    // console.log("leftNum", leftNum);
+
+    let coinLeft = await uniteCoinInfo(coins[leftNum].short_name, coins[leftNum].name);
+    let coinRight = await uniteCoinInfo(coins[rightNum].short_name, coins[rightNum].name);
+
+    // console.log(coinLeft);
+    // console.log(coinRight);
+
+    let idNameLeft = "rateCoinLeft";
+    let idNameRight = "rateCoinRight";
+    displayRandomCoins(idNameLeft, coinLeft);
+    displayRandomCoins(idNameRight, coinRight);
+};
+
+
+function randomNumCoin() {
+    let numCoin = coins.length;
+    return Math.floor(Math.random() * numCoin);
+};
+
+
+async function checkRandomNum() {
+    let right = await randomNumCoin();
+    // console.log(right);
+    let left = await randomNumCoin();
+    // console.log(left);
+
+    if (left !== right) {
+        let numbers = {
+            rightNum: right,
+            leftNum: left
+        }
+        return numbers;
+    } else {
+        console.log("repeat function");
+        let num = await checkRandomNum();
+        return num;
+    }
+};
+
+
+function displayRandomCoins(idName, coin) {
+    let divName = document.getElementById(idName);
+    let randomCoin = coin;
+    let changePct = randomCoin.priceUsd.changePct;
+    let firstContainer = divName.firstElementChild.getElementsByTagName("DIV");
+    let lastContainer = divName.lastElementChild.getElementsByTagName("DIV");
+
+    firstContainer[0].textContent = randomCoin.coinSymbol;
+    firstContainer[1].textContent = randomCoin.priceUsd.price;
+
+    if (lastContainer[0].classList.length > 0) {
+        let nameClass = lastContainer[0].className;
+        lastContainer[0].classList.remove(nameClass);
+        lastContainer[1].classList.remove(nameClass);
+
+        changeRandomFontColor(changePct, lastContainer);
+    } else {
+        changeRandomFontColor(changePct, lastContainer);
+    }
+
+    lastContainer[0].textContent = `${randomCoin.priceUsd.changePct} %`;
+    lastContainer[1].textContent = randomCoin.priceUsd.changeCurrency;
+};
+
+function changeRandomFontColor(coinPrice, elem) {
+    if (coinPrice > 0) {
+        elem[0].classList.add("fontGreen");
+        elem[1].classList.add("fontGreen");
+    } else if (coinPrice < 0) {
+        elem[0].classList.add("fontRed");
+        elem[1].classList.add("fontRed");
+    } else {
+        elem[0].classList.add("fontBlack");
+        elem[1].classList.add("fontBlack");
+    }
+};
