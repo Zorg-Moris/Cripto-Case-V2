@@ -30,7 +30,7 @@ let coins = [{
 },
 {
     name: "IOTA",
-    short_name: "IOTA"
+    short_name: "IOT"
 },
 {
     name: "Bitcoin Cash",

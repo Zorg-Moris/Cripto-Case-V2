@@ -18,7 +18,6 @@ function displayCoins() {
     };
 };
 
-
 async function getCoinInfo(event) {
     if (event.target.tagName !== "BUTTON") {
         return;
@@ -248,7 +247,12 @@ function clickCoinInfoButton(event) {
             break;
         case "delete":
             let coinInfoHead = document.getElementById("coinInfo");
-            coinInfoHead.removeChild(child);
+            child.classList.add("deleteBlock");
+            console.log(child);
+            setTimeout(() => {
+                coinInfoHead.removeChild(child);
+            }, 1200);
+
             let arrCoins = state.chooseCoins;
             let newArrCoins = arrCoins.filter(function (coin) {
                 return coin !== coinShortName;
@@ -277,17 +281,12 @@ async function randomCoin() {
         leftNum
     } = numbers;
 
-    // console.log("rightNum", rightNum);
-    // console.log("leftNum", leftNum);
-
     let coinLeft = await uniteCoinInfo(coins[leftNum].short_name, coins[leftNum].name);
     let coinRight = await uniteCoinInfo(coins[rightNum].short_name, coins[rightNum].name);
 
-    // console.log(coinLeft);
-    // console.log(coinRight);
-
     let idNameLeft = "rateCoinLeft";
     let idNameRight = "rateCoinRight";
+
     displayRandomCoins(idNameLeft, coinLeft);
     displayRandomCoins(idNameRight, coinRight);
 };
@@ -301,9 +300,7 @@ function randomNumCoin() {
 
 async function checkRandomNum() {
     let right = await randomNumCoin();
-    // console.log(right);
     let left = await randomNumCoin();
-    // console.log(left);
 
     if (left !== right) {
         let numbers = {

@@ -62,9 +62,7 @@ chartTermin.addEventListener("change", function (event) {
         for (let i = 0; i < valueRadio.length; i++) {
             if (valueRadio[i].checked) {
                 let result = valueRadio[i].value;
-                console.log(result);
-                // upDateChart(result);
-                //let coin = state.coinChoose;
+                //console.log(result);
                 getHistoricalRequest(result);
             }
         }
