@@ -30,7 +30,8 @@ let coins = [{
 },
 {
     name: "IOTA",
-    short_name: "IOT"
+    short_name: "IOT",
+    //short_name:"MIOTA" c 25 march
 },
 {
     name: "Bitcoin Cash",

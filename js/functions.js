@@ -18,6 +18,7 @@ function displayCoins() {
     };
 };
 
+
 async function getCoinInfo(event) {
     if (event.target.tagName !== "BUTTON") {
         return;
@@ -31,11 +32,13 @@ async function getCoinInfo(event) {
     }
 };
 
+
 async function requestCoinInfo(coin) {
     let responsCoin = await request(coin);
     let data = JSON.parse(responsCoin);
     return data;
 };
+
 
 async function destructObject(data, coinShortName, coinName) {
     let coinInfo = data.DISPLAY[coinShortName];
@@ -158,6 +161,7 @@ function displayInfoCoin(coin, coinShortName) {
     coinInfoHead.appendChild(coinInfo);
 };
 
+
 function changeFontColor(price, elem) {
     let regexNum = /[^\-.\d]+/g;
     let newPrice = price.replace(regexNum, "");
@@ -198,6 +202,7 @@ async function getHistoricalRequest(termin = 10) {
     await displayGrapf(dateArray, timeArray, coin);
 };
 
+
 async function destructHistoricalRequest(data) {
     let historyData = {
         dateArray: [],
@@ -213,12 +218,14 @@ async function destructHistoricalRequest(data) {
     return historyData;
 };
 
+
 async function displayGrapf(dateArray, timeArray, coinShortName) {
     if (state.chartCoin !== null) {
         state.chartCoin.destroyChart();
     }
     state.chartCoin = new ChartCoin(dateArray, timeArray, coinShortName);
 };
+
 
 function clickCoinInfoInput(event) {
     let targetInfo = event.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
@@ -232,6 +239,7 @@ function clickCoinInfoInput(event) {
         cost.textContent = res;
     }
 };
+
 
 function clickCoinInfoButton(event) {
     let name = event.target.getAttribute("name");
@@ -266,14 +274,16 @@ function clickCoinInfoButton(event) {
     }
 };
 
+
 function displayCoinHeader() {
     let coinHeader = document.getElementById("coinHeader");
     if (state.chooseCoins.length === 0) {
         coinHeader.classList.add("displayNone");
-    } else if (state.chooseCoins.length === 1) {
+    } else if (state.chooseCoins.length >= 1) {
         coinHeader.classList.remove("displayNone");
     }
 };
+
 
 async function randomCoin() {
     let numbers = await checkRandomNum();
@@ -340,6 +350,7 @@ function displayRandomCoins(idName, coin) {
     lastContainer[0].textContent = `${randomCoin.priceUsd.changePct} %`;
     lastContainer[1].textContent = randomCoin.priceUsd.changeCurrency;
 };
+
 
 function changeRandomFontColor(coinPrice, elem) {
     if (coinPrice > 0) {

@@ -248,23 +248,23 @@
     transition: all 500ms ease;
     /* box-shadow: 0 0px 14px 3px rgba(0, 0, 0, 0.2) inset; */
     box-shadow: 0px 0px 0.5px 1px rgb(165, 43, 13) inset;
-    border-radius: 45%;
+    border-radius: 10%;
 }
 
 .checkbox+label:after {
     content: "USD";
-    width: 50px;
+    width: 60px;
     height: 30px;
     /* width: 116px;
     height: 116px; */
     position: absolute;
-    left: 32px;
+    left: 27px;
     top: 5px;
-    border-radius: 100%;
+    border-radius: 30%;
     background: #fff;
     text-align: center;
     /* line-height: 116px; */
-    line-height: 30px;
+    line-height: 32px;
     font-family: "Cabin", sans-serif;
     /* font-size: 35px; */
     font-size: 12px;
@@ -545,19 +545,6 @@ hr {
         0px 1px 0px rgba(255, 255, 255, 1);
 }
 
-.footer {
-    display: flex;
-    height: 2%;
-    width: 100%;
-    /* flex-grow: 0; */
-    justify-content: flex-end;
-    /* align-items: flex-end; */
-    /* padding: 40px 0; */
-    border-top: 1px solid blueviolet;
-    /* background-color: antiquewhite; */
-}
-
-
 
 /* Modal window */
 
@@ -647,14 +634,25 @@ hr {
     margin-left: 55px;
 }
 
+.footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+    background-color: black;
+    /* padding: 40px 0; */
+}
+
 .footerContent {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.footer {
-    height: 5%;
-    background-color: black;
+.footerContent>img{
+    width: 200px;
 }
 
 .deleteBlock {
@@ -686,6 +684,20 @@ hr {
     .chartTermin>input {
         margin-right: 25px;
     }
+
+    .checkbox+label {
+        width: 60px;
+        height: 25px;
+    }
+
+    .checkbox+label:after {
+        width: 40px;
+        height: 22px;
+        font-size: 9px;
+        line-height: 24px;
+        left: 17px;
+        top: 8px;
+    }
 }
 
 @media (min-width:600px) and (max-width:800px) {
@@ -710,7 +722,6 @@ hr {
     .chartTermin>input {
         margin-left: 30px;
     }
-
 }
 
 @media (min-width:800px) and (max-width:1000px) {
