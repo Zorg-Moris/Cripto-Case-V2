@@ -6,4 +6,8 @@ The project assumes the receipt of information about the cryptocurrency, namely 
 what is planned to be implemented in the near future
  - responsive design;
  - cross-browser compatibility;
- - a cabinet for registered users....
+ - a cabinet for registered users.
+ 
+ What is done at this moment you can see by clicking this link:
+ http://t2.oldgarage.in.ua/crypto-case/
+ 
