@@ -1,6 +1,7 @@
 /* body {
-    margin: 6px;
+    background: #EDB22A;
 } */
+
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +38,6 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2d40b', endColorstr='#1f1e1a', GradientType=1);
 }
 
-
 .textEmblem {
     font-size: 1.2rem;
 }
@@ -54,6 +54,7 @@
     /* flex-grow: 1; */
     flex-direction: column;
     width: 100%;
+    /* height: 100%; */
     min-height: 87vh;
     /* border: rgb(69, 247, 15) 2px solid; */
     background: rgb(242, 255, 240);
@@ -64,8 +65,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* height:calc(100vh - 80vh); */
-    height: auto;
+    height:calc(100vh - 85vh);
+    /* height: auto; */
     margin-top: 10px;
 }
 
@@ -375,7 +376,7 @@ hr {
     flex-direction: column;
     align-items: center;
     /* border: 2px solid royalblue; */
-    min-height: 150px;
+    min-height: 300px;
     font-size: 2vw;
     width: 99%;
 }
@@ -453,7 +454,6 @@ hr {
     /* border: 2px solid green; */
 }
 
-
 .coinChange {
     display: flex;
     flex-direction: column;
@@ -491,7 +491,56 @@ hr {
     width: 90%;
     height: 60%;
     text-align: center;
+    text-overflow: ellipsis;
     /* font-size: 1.8vw; */
+}
+
+.calcInput::-webkit-input-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+    color: goldenrod;
+    text-overflow: ellipsis;
+}
+
+.calcInput::-moz-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+    color: goldenrod;
+    text-overflow: ellipsis;
+}
+
+.calcInput:-moz-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+    color: goldenrod;
+    text-overflow: ellipsis;
+}
+
+.calcInput:-ms-input-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+    color: goldenrod;
+    text-overflow: ellipsis;
+}
+
+.calcInput:focus::-webkit-input-placeholder {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.calcInput:focus::-moz-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.calcInput:focus:-moz-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.calcInput:focus:-ms-input-placeholder {
+    opacity: 1;
+    transition: opacity 1s ease;
 }
 
 .calc>div {
@@ -651,7 +700,7 @@ hr {
     align-items: center;
 }
 
-.footerContent>img{
+.footerContent>img {
     width: 200px;
 }
 
@@ -662,6 +711,10 @@ hr {
 }
 
 @media (min-width:200px) and (max-width:600px) {
+    .main {
+        min-height: 750px;
+    }
+
     .coinInfo {
         font-size: 3.5vw;
     }
@@ -698,9 +751,27 @@ hr {
         left: 17px;
         top: 8px;
     }
+
+    .calcInput {
+        font-size: 1vh;
+    }
+
+    .randomRate{
+        height:calc(100vh - 93vh);
+    }
+}
+
+@media(min-width:450px) and (max-width:600px) {
+    .calcInput {
+        font-size: 1.2vh;
+    }
 }
 
 @media (min-width:600px) and (max-width:800px) {
+    .main {
+        min-height: 90vh;
+    }
+
     .coinInfo {
         font-size: 3vw;
     }
@@ -722,9 +793,17 @@ hr {
     .chartTermin>input {
         margin-left: 30px;
     }
+
+    .randomRate{
+        height:calc(100vh - 90vh);
+    }
 }
 
 @media (min-width:800px) and (max-width:1000px) {
+    .main {
+        min-height: 90vh;
+    }
+
     .coinInfo {
         font-size: 2.5vw;
     }
@@ -742,16 +821,21 @@ hr {
     .chartTermin {
         width: 75%;
     }
-
 }
 
+
 @media (min-width:1000px) and (max-width:1400px) {
+    .main {
+        min-height: 90vh;
+    }
+
     .coinInfo {
         font-size: 2vw;
     }
 }
 
 @media (min-width:1400px) {
+
     .coinInfo {
         font-size: 1.5vw;
     }

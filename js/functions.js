@@ -134,6 +134,7 @@ function displayInfoCoin(coin, coinShortName) {
     let calcInput = document.createElement("input");
     calcInput.setAttribute("type", "text");
     calcInput.classList.add("calcInput");
+    calcInput.setAttribute("placeholder", "number of coins");
     dataCalc.appendChild(calcInput);
     calc.appendChild(dataCalc);
     let costCalc = document.createElement("div");
